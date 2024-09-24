@@ -1,0 +1,32 @@
+{
+  "name": "@tgc/rendering",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@emotion/react": "*",
+    "@emotion/styled": "*",
+    "@tanstack/react-query": "*",
+    "axios": "*",
+    "immer": "*",
+    "next": "*",
+    "react": "*",
+    "react-dom": "*",
+    "react-error-boundary": "*",
+    "swiper": "^11.0.7",
+    "zustand": "*"
+  },
+  "devDependencies": {
+    "@tgc/mocks-data": "workspace:*",
+    "@tgc/utils-common": "workspace:*",
+    "@types/node": "*",
+    "@types/react": "*",
+    "@types/react-dom": "*",
+    "typescript": "*"
+  }
+}
