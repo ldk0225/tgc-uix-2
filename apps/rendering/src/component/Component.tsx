@@ -1,21 +1,51 @@
-'use client';
+"use client";
 
-import {useEffect } from 'react';
-import {axios} from "../apis/axios";
+import { useQuery } from "@tanstack/react-query";
+import Image from "next/image";
+import { Suspense } from "react";
+import { ErrorBoundary } from "react-error-boundary";
+import ErrorFallback from "src/component/errors/ErrorFallback";
+import { axios } from "../apis/axios";
+import * as S from "./Component.style";
 
-const Component = () => {
-
-    useEffect(() => {
-    const getData = async () => {
-        const { data } = await axios.get('/api/banners');
-
-        console.log(data)
-    }
-
-    getData()
-    }, []);
-
-    return <div>API Boiler Plate</div>
+interface Banner {
+  id: number;
+  url: string;
 }
 
+const Component = () => {
+  return (
+    <ErrorBoundary fallback={<ErrorFallback />}>
+      <Suspense fallback={<div>Loading...</div>}>
+        <Grid />
+      </Suspense>
+    </ErrorBoundary>
+  );
+};
+
 export default Component;
+
+const Grid = () => {
+  const { data: banners } = useQuery<Banner[]>({
+    queryKey: ["banners"],
+    queryFn: async () => {
+      const { data } = await axios.get("/api/banners");
+      return data;
+    },
+  });
+
+  return (
+    <S.Grid>
+      {(banners ?? []).map(({ id, url }) => (
+        <Image
+          key={id}
+          src={url}
+          alt={`image_${id}`}
+          width={200}
+          height={300}
+          priority
+        />
+      ))}
+    </S.Grid>
+  );
+};
