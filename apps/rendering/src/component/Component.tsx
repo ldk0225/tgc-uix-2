@@ -5,6 +5,7 @@ import Image from "next/image";
 import { Suspense } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import ErrorFallback from "src/component/errors/ErrorFallback";
+import CommonLoadingFallback from "src/component/loadings/CommonLoadingFallback";
 import { axios } from "../apis/axios";
 import * as S from "./Component.style";
 
@@ -16,7 +17,7 @@ interface Banner {
 const Component = () => {
   return (
     <ErrorBoundary fallback={<ErrorFallback />}>
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<CommonLoadingFallback />}>
         <Grid />
       </Suspense>
     </ErrorBoundary>
