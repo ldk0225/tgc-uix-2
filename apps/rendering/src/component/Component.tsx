@@ -1,8 +1,8 @@
 "use client";
 
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
 import Image from "next/image";
-import { Suspense } from "react";
+import { Suspense, useEffect } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import ErrorFallback from "src/component/errors/ErrorFallback";
 import CommonLoadingFallback from "src/component/loadings/CommonLoadingFallback";
@@ -34,6 +34,14 @@ const Grid = () => {
       return data;
     },
   });
+
+  // 새로고침시 loading fallback을 보여주기 위해 캐싱 최적화 제거를 위한 추가 코드입니다.
+  const queryClient = useQueryClient();
+  useEffect(() => {
+    queryClient.removeQueries({
+      queryKey: ["banners"],
+    });
+  }, [queryClient]);
 
   return (
     <S.Grid>
