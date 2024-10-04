@@ -1,6 +1,6 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import { Suspense } from "react";
 import { ErrorBoundary } from "react-error-boundary";
@@ -26,7 +26,7 @@ const Component = () => {
 export default Component;
 
 const Grid = () => {
-  const { data: banners } = useQuery<Banner[]>({
+  const { data: banners } = useSuspenseQuery<Banner[]>({
     queryKey: ["banners"],
     queryFn: async () => {
       const { data } = await axios.get("/api/banners");
@@ -36,7 +36,7 @@ const Grid = () => {
 
   return (
     <S.Grid>
-      {(banners ?? []).map(({ id, url }) => (
+      {banners.map(({ id, url }) => (
         <Image
           key={id}
           src={url}
